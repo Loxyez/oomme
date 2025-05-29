@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,6 +7,10 @@ import { Component } from '@angular/core';
   standalone: false,
   styleUrl: './app.component.css'
 })
+
 export class AppComponent {
+  constructor() {
+    console.log('Environment:', environment.production);
+  }
   title = 'oomme';
 }
