@@ -1,31 +1,30 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { SocialLoginModule, SocialAuthServiceConfig, GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
-import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
-import { environment } from '../environments/environment';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { HomeComponent } from './components/home/home.component';
 import { MaterialModule } from './shared/material/material.module';
+import {
+  SocialLoginModule,
+  SocialAuthServiceConfig,
+  GoogleLoginProvider
+} from '@abacritt/angularx-social-login';
+import { environment } from '../environments/environment.development';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavbarComponent,
-    HomeComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
+    MaterialModule,
     SocialLoginModule,
-    GoogleSigninButtonModule,
-    MaterialModule
+    NavbarComponent
   ],
   providers: [
-    provideClientHydration(withEventReplay()),
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
@@ -33,15 +32,10 @@ import { MaterialModule } from './shared/material/material.module';
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              (environment.GOOGLE_CLIENT_ID as string) ?? (() => { throw new Error('GOOGLE_CLIENT_ID is not defined'); })(),
-            )
+            provider: new GoogleLoginProvider(environment.GOOGLE_CLIENT_ID)
           }
-        ],
-        onError: (error) => {
-          console.error('Error during social login:', error);
-        }
-      } as SocialAuthServiceConfig,
+        ]
+      } as SocialAuthServiceConfig
     }
   ],
   bootstrap: [AppComponent]

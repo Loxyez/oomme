@@ -1,22 +1,33 @@
-<div class="home-container" style="max-width:600px;margin:auto;padding:32px;">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Welcome to Oomme!</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        Oomme is your one-stop platform for managing and tracking your finances efficiently.
-        Discover tools to monitor your spending, set budgets, and achieve your financial goals with ease.
-      </p>
-      <ul>
-        <li>Track your income and expenses</li>
-        <li>Set and manage budgets</li>
-        <li>Monitor your financial progress in real-time</li>
-      </ul>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary">Get Started</button>
-      <button mat-button color="accent">Learn More</button>
-    </mat-card-actions>
-  </mat-card>
+<div class="home-container">
+  <div class="hero-section">
+    <h1>Welcome to Oomme</h1>
+    <p class="subtitle">Your Personal Finance Management Tool</p>
+
+    <div class="cta-section" *ngIf="!(authService.user$ | async)">
+      <button mat-raised-button color="primary" (click)="authService.signInWithGoogle()">
+        <mat-icon>login</mat-icon>
+        Get Started with Google
+      </button>
+    </div>
+  </div>
+
+  <div class="features-section">
+    <mat-card class="feature-card">
+      <mat-icon class="feature-icon">track_changes</mat-icon>
+      <h3>Track Expenses</h3>
+      <p>Monitor your spending habits and track every transaction with ease.</p>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <mat-icon class="feature-icon">savings</mat-icon>
+      <h3>Save Money</h3>
+      <p>Set savings goals and watch your wealth grow over time.</p>
+    </mat-card>
+
+    <mat-card class="feature-card">
+      <mat-icon class="feature-icon">insights</mat-icon>
+      <h3>Smart Insights</h3>
+      <p>Get intelligent insights about your spending patterns and habits.</p>
+    </mat-card>
+  </div>
 </div>

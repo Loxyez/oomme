@@ -6,6 +6,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .spacer {
   flex: 1 1 auto;
@@ -13,19 +14,18 @@
 .user-info {
   display: flex;
   align-items: center;
-  margin-left: 16px;
+}
+.user-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .profile-pic {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  object-fit: cover;
   margin-right: 8px;
-}
-.user-name {
-  font-weight: 500;
-  display: flex;
-  align-items: center;
+  object-fit: cover;
 }
 @media (max-width: 600px) {
   .user-info {
@@ -38,6 +38,14 @@
 mat-icon.profile-pic {
   color: white;
   font-size: 32px;
-  width: 32px;
   height: 32px;
+  width: 32px;
+}
+.login-button {
+  margin-left: 16px;
+}
+.nav-brand {
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
