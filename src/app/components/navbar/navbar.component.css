@@ -1,0 +1,43 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  background: #7b04aa;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+}
+.profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+.user-name {
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 600px) {
+  .user-info {
+    display: none;
+  }
+  .nav-brand {
+    font-size: 1rem;
+  }
+}
+mat-icon.profile-pic {
+  color: white;
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
