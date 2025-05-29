@@ -17,7 +17,7 @@ export class AuthService {
 
   constructor(
     private socialAuthService: SocialAuthService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: object
   ) {
     // Auto-load user on app start
     if (isPlatformBrowser(this.platformId)) {

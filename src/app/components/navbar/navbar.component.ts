@@ -12,7 +12,6 @@ import {
 } from '@abacritt/angularx-social-login';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -38,7 +37,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private socialAuthService: SocialAuthService,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: object
   ) {}
 
   ngOnInit() {

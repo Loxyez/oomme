@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
