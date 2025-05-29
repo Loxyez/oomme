@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const storedUser = localStorage.getItem('user');
+      const storedUser = localStorage.getItem('oommeUser');
       if (storedUser) {
         this.user = JSON.parse(storedUser);
       }
