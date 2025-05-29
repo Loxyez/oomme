@@ -6,10 +6,12 @@
     <div class="user-info">
       <button mat-button [matMenuTriggerFor]="menu" class="user-name">
         <ng-container *ngIf="user.photoUrl && !showDefaultProfile; else defaultProfile">
-          <img [src]="user.photoUrl"
-               alt="profile"
-               class="profile-pic"
-               (error)="onProfileImageError()"/>
+          <img
+            [src]="user.photoUrl"
+            alt="profile"
+            class="profile-pic"
+            (error)="onProfileImageError()"
+          />
         </ng-container>
         <ng-template #defaultProfile>
           <mat-icon class="profile-pic">account_circle</mat-icon>

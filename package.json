@@ -15,7 +15,8 @@
     "serve:ssr:oomme": "node dist/oomme/server/server.mjs",
     "start:dev": "ng serve --configuration=development",
     "start:prod": "ng serve --configuration=production",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prettier:fix": "prettier --write \"src/**/*.{ts,html,css}\""
   },
   "private": true,
   "dependencies": {

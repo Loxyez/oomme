@@ -8,21 +8,19 @@ import { MaterialModule } from './shared/material/material.module';
 import {
   SocialLoginModule,
   SocialAuthServiceConfig,
-  GoogleLoginProvider
+  GoogleLoginProvider,
 } from '@abacritt/angularx-social-login';
 import { environment } from '../environments/environment.development';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     MaterialModule,
     SocialLoginModule,
-    NavbarComponent
+    NavbarComponent,
   ],
   providers: [
     {
@@ -32,12 +30,12 @@ import { environment } from '../environments/environment.development';
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.GOOGLE_CLIENT_ID)
-          }
-        ]
-      } as SocialAuthServiceConfig
-    }
+            provider: new GoogleLoginProvider(environment.GOOGLE_CLIENT_ID),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

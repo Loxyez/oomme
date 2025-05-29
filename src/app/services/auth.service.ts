@@ -1,10 +1,14 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { SocialUser, SocialAuthService, GoogleLoginProvider } from '@abacritt/angularx-social-login'
+import {
+  SocialUser,
+  SocialAuthService,
+  GoogleLoginProvider,
+} from '@abacritt/angularx-social-login';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly STORAGE_KEY = 'oommeUser';
@@ -51,5 +55,4 @@ export class AuthService {
   getCurrentUser(): SocialUser | null {
     return this.user$.value;
   }
-
 }
