@@ -8,11 +8,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import {
   SocialAuthService,
   SocialUser,
-  GoogleSigninButtonModule
+  GoogleSigninButtonModule,
 } from '@abacritt/angularx-social-login';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -27,8 +26,8 @@ import { isPlatformBrowser } from '@angular/common';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    GoogleSigninButtonModule
-  ]
+    GoogleSigninButtonModule,
+  ],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   user: SocialUser | null = null;
@@ -38,7 +37,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private socialAuthService: SocialAuthService,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: object
   ) {}
 
   ngOnInit() {
@@ -49,7 +48,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.authSub = this.socialAuthService.authState.subscribe((user) => {
+    this.authSub = this.socialAuthService.authState.subscribe(user => {
       this.user = user;
       this.showDefaultProfile = false;
       if (isPlatformBrowser(this.platformId)) {

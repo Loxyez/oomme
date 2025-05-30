@@ -17,7 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatSidenavModule,
     MatListModule,
     MatInputModule,
-    MatMenuModule
-  ]
+    MatMenuModule,
+  ],
 })
 export class MaterialModule {}

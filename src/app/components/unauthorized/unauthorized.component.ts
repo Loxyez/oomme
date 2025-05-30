@@ -25,42 +25,44 @@ import { MatIconModule } from '@angular/material/icon';
       </div>
     </div>
   `,
-  styles: [`
-    .unauthorized-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: calc(100vh - 64px);
-      text-align: center;
-      padding: 20px;
-    }
-    .error-icon {
-      font-size: 64px;
-      height: 64px;
-      width: 64px;
-      color: #ff9800;
-      margin-bottom: 16px;
-    }
-    h1 {
-      font-size: 48px;
-      margin: 0;
-      color: #333;
-    }
-    h2 {
-      margin: 8px 0;
-      color: #666;
-    }
-    p {
-      margin: 16px 0;
-      color: #777;
-      max-width: 400px;
-    }
-    .button-group {
-      display: flex;
-      gap: 16px;
-      margin-top: 16px;
-    }
-  `]
+  styles: [
+    `
+      .unauthorized-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: calc(100vh - 64px);
+        text-align: center;
+        padding: 20px;
+      }
+      .error-icon {
+        font-size: 64px;
+        height: 64px;
+        width: 64px;
+        color: #ff9800;
+        margin-bottom: 16px;
+      }
+      h1 {
+        font-size: 48px;
+        margin: 0;
+        color: #333;
+      }
+      h2 {
+        margin: 8px 0;
+        color: #666;
+      }
+      p {
+        margin: 16px 0;
+        color: #777;
+        max-width: 400px;
+      }
+      .button-group {
+        display: flex;
+        gap: 16px;
+        margin-top: 16px;
+      }
+    `,
+  ],
 })
 export class UnauthorizedComponent {}

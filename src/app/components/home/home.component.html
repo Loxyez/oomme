@@ -3,7 +3,7 @@
     <h1>Welcome to Oomme</h1>
     <p class="subtitle">Your Personal Finance Management Tool</p>
 
-    <div class="cta-section" *ngIf="!(authService.user$ | async)">
+    <div class="cta-section" *ngIf="(authService.user$ | async) === null">
       <button mat-raised-button color="primary" (click)="authService.signInWithGoogle()">
         <mat-icon>login</mat-icon>
         Get Started with Google
