@@ -13,7 +13,7 @@ import { isPlatformBrowser } from '@angular/common';
 export class HttpRequestInterceptor implements HttpInterceptor {
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // Create headers
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
