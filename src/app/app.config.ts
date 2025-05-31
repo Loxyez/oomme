@@ -9,7 +9,7 @@ import {
   SocialAuthServiceConfig,
   GoogleLoginProvider,
 } from '@abacritt/angularx-social-login';
-import { environment } from '../environments/environment.development';
+import { environment } from '../environments/environment';
 import { AppModule } from './app.module';
 
 export const appConfig: ApplicationConfig = {

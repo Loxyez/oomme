@@ -1,4 +1,4 @@
-import { environment } from './../environments/environment.development';
+import { environment } from './../environments/environment';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -11,6 +11,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
   imports: [RouterOutlet, NavbarComponent],
 })
 export class AppComponent {
-  constructor() {}
+  constructor() {
+    console.log('Environment:', environment.production);
+  }
   title = 'oomme';
 }

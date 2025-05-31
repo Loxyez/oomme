@@ -11,6 +11,7 @@
             alt="profile"
             class="profile-pic"
             (error)="onProfileImageError()"
+            onerror="this.style.display='none'"
           />
         </ng-container>
         <ng-template #defaultProfile>
