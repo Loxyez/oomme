@@ -45,18 +45,26 @@ export class AuthService {
     // Auto-load user and token on app start
     if (isPlatformBrowser(this.platformId)) {
       const savedToken = localStorage.getItem(this.TOKEN_KEY);
-      if (savedToken) {
+      const savedUser = localStorage.getItem(this.STORAGE_KEY);
+
+      if (savedToken && savedUser) {
+        // Restore saved state
         this.token$.next(savedToken);
+        this.user$.next(JSON.parse(savedUser));
+
+        // Try to refresh profile
         this.fetchUserProfile().subscribe({
           error: error => {
             console.error('Error fetching profile:', error);
-            this.logout();
+            // Don't logout on fetch error, we'll use cached data
           },
         });
       }
     }
 
+    // Listen for social auth changes
     this.socialAuthService.authState.subscribe((socialUser: SocialUser | null) => {
+      console.log('Social auth state changed:', socialUser ? 'logged in' : 'logged out');
       if (socialUser && isPlatformBrowser(this.platformId)) {
         this.loginWithBackend(socialUser);
       }
@@ -101,10 +109,24 @@ export class AuthService {
             throw new Error('Invalid response format: no token found in response');
           }
           console.log('Login successful, received token');
+
+          // Store token
+          this.token$.next(token);
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem(this.TOKEN_KEY, token);
           }
-          this.token$.next(token);
+
+          // Store initial user data while we fetch the full profile
+          const initialUserData: UserProfile = {
+            id: '',
+            email: loginData.email,
+            name: loginData.name,
+            picture: loginData.picture
+          };
+          this.user$.next(initialUserData);
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(initialUserData));
+          }
         }),
         catchError(error => {
           console.error('Login failed:', error);
@@ -139,10 +161,36 @@ export class AuthService {
     return this.http.get<UserProfile>(`${this.API_URL}/users/me`).pipe(
       tap(profile => {
         console.log('Profile fetched successfully:', profile);
+        // Validate profile data
+        if (!profile.picture) {
+          console.warn('Profile missing picture URL');
+          // Try to get picture from cached data
+          if (isPlatformBrowser(this.platformId)) {
+            const cachedUser = localStorage.getItem(this.STORAGE_KEY);
+            if (cachedUser) {
+              const userData = JSON.parse(cachedUser);
+              profile.picture = userData.picture || '';
+            }
+          }
+        }
+
+        // Store and emit profile
         this.user$.next(profile);
+        if (isPlatformBrowser(this.platformId) && profile) {
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(profile));
+        }
       }),
       catchError(error => {
         console.error('Error fetching profile:', error);
+        // On error, try to use cached user data
+        if (isPlatformBrowser(this.platformId)) {
+          const cachedUser = localStorage.getItem(this.STORAGE_KEY);
+          if (cachedUser) {
+            const userData = JSON.parse(cachedUser);
+            console.log('Using cached user data:', userData);
+            this.user$.next(userData);
+          }
+        }
         return this.handleError(error);
       })
     );
@@ -160,12 +208,16 @@ export class AuthService {
   }
 
   logout(): void {
-    this.socialAuthService.signOut().finally(() => {
-      if (isPlatformBrowser(this.platformId)) {
-        localStorage.removeItem(this.TOKEN_KEY);
-      }
-      this.token$.next(null);
-      this.user$.next(null);
+    // Clear state first
+    this.token$.next(null);
+    this.user$.next(null);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.TOKEN_KEY);
+      localStorage.removeItem(this.STORAGE_KEY);
+    }
+    // Then sign out of social auth
+    this.socialAuthService.signOut().catch(error => {
+      console.error('Error during sign out:', error);
     });
   }
 

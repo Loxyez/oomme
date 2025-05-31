@@ -44,14 +44,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authSub = this.authService.user$.subscribe(user => {
+      console.log('Navbar received user update:', user);
       if (user) {
         this.user = {
           name: user.name,
           photoUrl: user.picture, // backend sends picture instead of photoUrl
         };
+        console.log('Set user display with photo URL:', this.user.photoUrl);
+        // Reset showDefaultProfile when we get a new user
         this.showDefaultProfile = false;
       } else {
         this.user = null;
+        this.showDefaultProfile = false;
       }
     });
   }
@@ -63,6 +67,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   onProfileImageError(): void {
+    console.log('Profile image failed to load, URL was:', this.user?.photoUrl);
     this.showDefaultProfile = true;
   }
 

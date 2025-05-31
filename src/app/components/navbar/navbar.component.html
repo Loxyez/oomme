@@ -5,18 +5,23 @@
   <ng-container *ngIf="user; else guestLinks">
     <div class="user-info">
       <button mat-button [matMenuTriggerFor]="menu" class="user-name">
-        <ng-container *ngIf="user.photoUrl && !showDefaultProfile; else defaultProfile">
-          <img
-            [src]="user.photoUrl"
-            alt="profile"
-            class="profile-pic"
-            (error)="onProfileImageError()"
-            onerror="this.style.display='none'"
-          />
-        </ng-container>
-        <ng-template #defaultProfile>
-          <mat-icon class="profile-pic">account_circle</mat-icon>
-        </ng-template>
+        <div class="profile-container">
+          <ng-container *ngIf="user.photoUrl && !showDefaultProfile; else defaultProfileIcon">
+            <img
+              [src]="user.photoUrl"
+              alt="profile"
+              class="profile-pic"
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+              (error)="onProfileImageError()"
+              (load)="showDefaultProfile = false"
+              style="height: 32px; width: 32px; border-radius: 50%;"
+            />
+          </ng-container>
+          <ng-template #defaultProfileIcon>
+            <mat-icon class="profile-pic default-icon">account_circle</mat-icon>
+          </ng-template>
+        </div>
         <span>{{ user.name }}</span>
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
