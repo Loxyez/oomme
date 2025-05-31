@@ -121,7 +121,7 @@ export class AuthService {
             id: '',
             email: loginData.email,
             name: loginData.name,
-            picture: loginData.picture
+            picture: loginData.picture,
           };
           this.user$.next(initialUserData);
           if (isPlatformBrowser(this.platformId)) {
