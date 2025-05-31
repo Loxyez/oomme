@@ -1,0 +1,27 @@
+# Set to true to add reviewers to PRs
+addReviewers: true
+
+# Set to true to add assignees to PRs
+addAssignees: true
+
+# A list of reviewers to be added to PRs (GitHub user name)
+reviewers:
+  - Loxyez
+
+# A number of reviewers added to the PR
+# Set 0 to add all the reviewers
+numberOfReviewers: 0
+
+# A list of assignees, overrides reviewers if set
+assignees:
+  - Loxyez
+
+# A number of assignees to add to the PRs
+# Set to 0 to add all of the assignees.
+numberOfAssignees: 0
+
+# A list of keywords to be skipped if present in a PR's title
+# (PR wont be assigned to anyone if these keywords are present)
+skipKeywords:
+  - wip
+  - draft

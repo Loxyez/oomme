@@ -6,12 +6,14 @@ import {
   GoogleLoginProvider,
 } from '@abacritt/angularx-social-login';
 import { isPlatformBrowser } from '@angular/common';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly STORAGE_KEY = 'oommeUser';
+  private API_V1 = environment.API_V1;
 
   user$: BehaviorSubject<SocialUser | null> = new BehaviorSubject<SocialUser | null>(null);
 
