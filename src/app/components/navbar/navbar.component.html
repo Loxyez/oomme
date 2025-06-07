@@ -4,7 +4,7 @@
 
   <ng-container *ngIf="user; else guestLinks">
     <div class="user-info">
-      <button mat-button [matMenuTriggerFor]="menu" class="user-name">
+      <button mat-button [matMenuTriggerFor]="menu" class="user-name" style="color: white">
         <div class="profile-container">
           <ng-container *ngIf="user.photoUrl && !showDefaultProfile; else defaultProfileIcon">
             <img
@@ -22,7 +22,7 @@
             <mat-icon class="profile-pic default-icon">account_circle</mat-icon>
           </ng-template>
         </div>
-        <span>{{ user.name }}</span>
+        <span style="color: white">{{ user.name }}</span>
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
     </div>

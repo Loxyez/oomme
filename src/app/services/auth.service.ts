@@ -1,6 +1,6 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, tap, catchError, throwError, take } from 'rxjs';
 import {
   SocialUser,
   SocialAuthService,
@@ -48,17 +48,25 @@ export class AuthService {
       const savedUser = localStorage.getItem(this.STORAGE_KEY);
 
       if (savedToken && savedUser) {
+        console.log('Restoring session from localStorage');
         // Restore saved state
         this.token$.next(savedToken);
         this.user$.next(JSON.parse(savedUser));
 
         // Try to refresh profile
         this.fetchUserProfile().subscribe({
+          next: () => console.log('Session restored successfully'),
           error: error => {
-            console.error('Error fetching profile:', error);
-            // Don't logout on fetch error, we'll use cached data
+            console.error('Error restoring session:', error);
+            if (error.status === 401) {
+              console.warn('Token expired, attempting silent login');
+              this.attemptSilentLogin();
+            }
           },
         });
+      } else {
+        console.log('No session found, attempting silent login');
+        this.attemptSilentLogin();
       }
     }
 
@@ -67,6 +75,20 @@ export class AuthService {
       console.log('Social auth state changed:', socialUser ? 'logged in' : 'logged out');
       if (socialUser && isPlatformBrowser(this.platformId)) {
         this.loginWithBackend(socialUser);
+      }
+    });
+  }
+
+  private attemptSilentLogin(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    console.log('Attempting silent login');
+    this.socialAuthService.authState.pipe(take(1)).subscribe(user => {
+      if (user) {
+        console.log('Silent login successful, logging in with backend');
+        this.loginWithBackend(user);
+      } else {
+        console.log('No active Google session found');
       }
     });
   }
