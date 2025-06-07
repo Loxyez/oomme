@@ -5,8 +5,8 @@
 
     <div class="cta-section" *ngIf="(authService.user$ | async) === null">
       <button mat-raised-button color="primary" (click)="authService.signInWithGoogle()">
-        <mat-icon>login</mat-icon>
-        Get Started with Google
+      <mat-icon>login</mat-icon>
+      Get Started with Google
       </button>
     </div>
   </div>

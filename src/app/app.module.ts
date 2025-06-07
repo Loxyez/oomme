@@ -34,7 +34,10 @@ import { HttpRequestInterceptor } from './interceptors/http.interceptor';
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.GOOGLE_CLIENT_ID),
+            provider: new GoogleLoginProvider(environment.GOOGLE_CLIENT_ID, {
+              scopes: ['profile', 'email'],
+              prompt: 'select_account', // disable One Tap
+            }),
           },
         ],
       } as SocialAuthServiceConfig,

@@ -33,7 +33,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       headers,
     });
 
-    console.log('Outgoing request headers:', modifiedRequest.headers.keys());
     return next.handle(modifiedRequest);
   }
 }

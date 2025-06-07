@@ -8,7 +8,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
 interface UserDisplay {
@@ -37,20 +36,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private authSub?: Subscription;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: object
   ) {}
 
   ngOnInit() {
     this.authSub = this.authService.user$.subscribe(user => {
-      console.log('Navbar received user update:', user);
       if (user) {
         this.user = {
           name: user.name,
           photoUrl: user.picture, // backend sends picture instead of photoUrl
         };
-        console.log('Set user display with photo URL:', this.user.photoUrl);
         // Reset showDefaultProfile when we get a new user
         this.showDefaultProfile = false;
       } else {
@@ -67,7 +64,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   onProfileImageError(): void {
-    console.log('Profile image failed to load, URL was:', this.user?.photoUrl);
     this.showDefaultProfile = true;
   }
 

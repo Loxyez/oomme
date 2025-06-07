@@ -2,7 +2,15 @@
   <span class="nav-brand">ออมมี (oomme)</span>
   <span class="spacer"></span>
 
-  <ng-container *ngIf="user; else guestLinks">
+  <asl-google-signin-button
+    type="standard"
+    size="large"
+    theme="filled_blue"
+    [width]="240"
+    *ngIf="!user"
+  ></asl-google-signin-button>
+
+  <ng-container *ngIf="user">
     <div class="user-info">
       <button mat-button [matMenuTriggerFor]="menu" class="user-name" style="color: white">
         <div class="profile-container">
@@ -45,15 +53,4 @@
       </button>
     </mat-menu>
   </ng-container>
-
-  <ng-template #guestLinks>
-    <div class="login-button">
-      <asl-google-signin-button
-        type="standard"
-        size="large"
-        theme="filled_blue"
-        [width]="240"
-      ></asl-google-signin-button>
-    </div>
-  </ng-template>
 </mat-toolbar>

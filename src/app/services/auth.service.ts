@@ -48,14 +48,12 @@ export class AuthService {
       const savedUser = localStorage.getItem(this.STORAGE_KEY);
 
       if (savedToken && savedUser) {
-        console.log('Restoring session from localStorage');
         // Restore saved state
         this.token$.next(savedToken);
         this.user$.next(JSON.parse(savedUser));
 
         // Try to refresh profile
         this.fetchUserProfile().subscribe({
-          next: () => console.log('Session restored successfully'),
           error: error => {
             console.error('Error restoring session:', error);
             if (error.status === 401) {
@@ -65,30 +63,17 @@ export class AuthService {
           },
         });
       } else {
-        console.log('No session found, attempting silent login');
         this.attemptSilentLogin();
       }
     }
-
-    // Listen for social auth changes
-    this.socialAuthService.authState.subscribe((socialUser: SocialUser | null) => {
-      console.log('Social auth state changed:', socialUser ? 'logged in' : 'logged out');
-      if (socialUser && isPlatformBrowser(this.platformId)) {
-        this.loginWithBackend(socialUser);
-      }
-    });
   }
 
   private attemptSilentLogin(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    console.log('Attempting silent login');
     this.socialAuthService.authState.pipe(take(1)).subscribe(user => {
       if (user) {
-        console.log('Silent login successful, logging in with backend');
         this.loginWithBackend(user);
-      } else {
-        console.log('No active Google session found');
       }
     });
   }
@@ -119,18 +104,14 @@ export class AuthService {
       picture: socialUser.photoUrl,
     };
 
-    console.log('Attempting login with:', { ...loginData, token: '[REDACTED]' });
-
     this.http
       .post<LoginResponse>(`${this.API_URL}/auth/login`, loginData)
       .pipe(
         tap(response => {
-          console.log('Received login response:', { ...response, token: '[REDACTED]' });
           const token = this.getTokenFromResponse(response);
           if (!token) {
             throw new Error('Invalid response format: no token found in response');
           }
-          console.log('Login successful, received token');
 
           // Store token
           this.token$.next(token);
@@ -158,7 +139,6 @@ export class AuthService {
       )
       .subscribe({
         next: () => {
-          console.log('Token stored, fetching profile...');
           this.fetchUserProfile().subscribe({
             next: () => console.log('Profile fetch completed'),
             error: error => {
@@ -173,7 +153,6 @@ export class AuthService {
 
   private fetchUserProfile(): Observable<UserProfile> {
     const token = this.getToken();
-    console.log('Fetching user profile, token exists:', !!token);
 
     if (!token) {
       console.error('No token available for profile fetch');
@@ -182,7 +161,6 @@ export class AuthService {
 
     return this.http.get<UserProfile>(`${this.API_URL}/users/me`).pipe(
       tap(profile => {
-        console.log('Profile fetched successfully:', profile);
         // Validate profile data
         if (!profile.picture) {
           console.warn('Profile missing picture URL');
@@ -209,7 +187,6 @@ export class AuthService {
           const cachedUser = localStorage.getItem(this.STORAGE_KEY);
           if (cachedUser) {
             const userData = JSON.parse(cachedUser);
-            console.log('Using cached user data:', userData);
             this.user$.next(userData);
           }
         }
@@ -219,6 +196,12 @@ export class AuthService {
   }
 
   signInWithGoogle(): Promise<void> {
+    this.socialAuthService.authState.pipe(take(1)).subscribe((socialUser: SocialUser | null) => {
+      if (socialUser && isPlatformBrowser(this.platformId)) {
+        this.loginWithBackend(socialUser);
+      }
+    });
+
     return this.socialAuthService
       .signIn(GoogleLoginProvider.PROVIDER_ID)
       .then(socialUser => {
